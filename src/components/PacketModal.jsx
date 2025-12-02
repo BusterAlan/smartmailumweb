@@ -4,10 +4,10 @@ export default function PacketModal({
   onSubmit,
   onClose,
   PAQUETERIAS,
-  EMPLEADOS,
   TAMAÑOS,
   CONTENEDORES,
-  editingIndex
+  editingIndex,
+  username
 }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -52,17 +52,13 @@ export default function PacketModal({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Empleado que Recibe *</label>
-                <select
-                  value={formData.recibe}
-                  onChange={(e) => setFormData({...formData, recibe: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Seleccionar...</option>
-                  {EMPLEADOS.map(emp => (
-                    <option key={emp.id} value={emp.id}>{emp.nombre}</option>
-                  ))}
-                </select>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Empleado que Recibe</label>
+                <input
+                  type="text"
+                  value={username}
+                  disabled
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed"
+                />
               </div>
 
               <div>
@@ -78,6 +74,8 @@ export default function PacketModal({
                   ))}
                 </select>
               </div>
+
+              {/* TODO: Contenedor del formulario de creación */}
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Contenedor</label>
@@ -103,35 +101,30 @@ export default function PacketModal({
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Fecha de Recepción *</label>
-                <input
-                  type="datetime-local"
-                  value={formData.fecha_recib}
-                  onChange={(e) => setFormData({...formData, fecha_recib: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+              {editingIndex !== null && (
+                <>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Fecha de Entrega</label>
+                    <input
+                      type="datetime-local"
+                      value={formData.fecha_entre}
+                      onChange={(e) => setFormData({...formData, fecha_entre: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Fecha de Entrega</label>
-                <input
-                  type="datetime-local"
-                  value={formData.fecha_entre}
-                  onChange={(e) => setFormData({...formData, fecha_entre: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Matrícula Entregado</label>
+                    <input
+                      type="text"
+                      value={formData.matric_entregado}
+                      onChange={(e) => setFormData({...formData, matric_entregado: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </>
+              )}
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Matrícula Entregado</label>
-                <input
-                  type="text"
-                  value={formData.matric_entregado}
-                  onChange={(e) => setFormData({...formData, matric_entregado: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
             </div>
 
             <div className="flex gap-3 mt-6">

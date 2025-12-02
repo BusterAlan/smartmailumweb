@@ -1,4 +1,3 @@
-import React from 'react'
 import { Trash2, Edit2, Plus, Package, LogOut, Search } from 'lucide-react'
 import { getNombre } from '../utils/helpers'
 
@@ -72,7 +71,7 @@ export default function Dashboard({
                     <td className="px-4 py-3 text-sm text-gray-700">{getNombre(paquete.recibe, EMPLEADOS)}</td>
                     <td className="px-4 py-3 text-sm text-gray-700">{getNombre(paquete.tamaño, TAMAÑOS)}</td>
                     <td className="px-4 py-3 text-sm text-gray-700">{getNombre(paquete.contenedor, CONTENEDORES)}</td>
-                    <td className="px-4 py-3 text-sm text-gray-700">{paquete.remitente || '-'}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{paquete.remitente || '(Desconocido)'}</td>
                     <td className="px-4 py-3 text-sm text-gray-700">{paquete.fecha_recib ? new Date(paquete.fecha_recib).toLocaleDateString() : '-'}</td>
                     <td className="px-4 py-3 text-sm">
                       <div className="flex gap-2">

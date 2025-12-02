@@ -1,4 +1,3 @@
-import React from 'react'
 import { Package } from 'lucide-react'
 
 export default function Login({ username, password, setUsername, setPassword, onLogin }) {
@@ -9,7 +8,7 @@ export default function Login({ username, password, setUsername, setPassword, on
           <Package className="w-16 h-16 text-blue-600" />
         </div>
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">Sistema de Paquetería</h1>
-        <p className="text-center text-gray-600 mb-8">Universidad</p>
+        <p className="text-center text-gray-600 mb-8">Universidad de Montemorelos</p>
 
         <div>
           <div className="mb-4">

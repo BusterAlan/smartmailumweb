@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import PacketModal from './components/PacketModal'
 import mockData from './data/mock_data'
+import { logCreate, logEdit, logDelete } from './utils/logger'
 
 const { PAQUETERIAS, EMPLEADOS, TAMAÑOS, CONTENEDORES } = mockData
 
@@ -86,18 +87,36 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (editingIndex !== null) {
+      // Editar: mantener datos como están
+      const before = paquetes[editingIndex]
       const updated = [...paquetes]
-      updated[editingIndex] = formData
+      // Ensure remitente has a sensible default if left empty
+      const after = { ...formData, remitente: formData.remitente && formData.remitente.trim() !== '' ? formData.remitente : '(Desconocido)' }
+      updated[editingIndex] = after
       setPaquetes(updated)
+      logEdit(before, after, editingIndex)
     } else {
-      setPaquetes([...paquetes, formData])
+      // Crear: auto-llenar recibe y fecha_entre
+      const empleadoId = EMPLEADOS.find(emp => emp.nombre === username)?.id || 1
+      const ahora = new Date().toISOString().slice(0, 16) // Formato: YYYY-MM-DDTHH:mm
+
+      const newPaquete = {
+        ...formData,
+        recibe: empleadoId,
+        fecha_recib: ahora,
+        remitente: formData.remitente && formData.remitente.trim() !== '' ? formData.remitente : '(Desconocido)'
+      }
+      setPaquetes([...paquetes, newPaquete])
+      logCreate(newPaquete)
     }
     closeModal()
   }
 
   const handleDelete = (index) => {
     if (window.confirm('¿Estás seguro de eliminar este paquete?')) {
+      const deleted = paquetes[index]
       setPaquetes(paquetes.filter((_, i) => i !== index))
+      logDelete(deleted, index)
     }
   }
 
@@ -135,10 +154,11 @@ export default function App() {
           onSubmit={handleSubmit}
           onClose={closeModal}
           PAQUETERIAS={PAQUETERIAS}
-          EMPLEADOS={EMPLEADOS}
           TAMAÑOS={TAMAÑOS}
           CONTENEDORES={CONTENEDORES}
+          EMPLEADOS={EMPLEADOS}
           editingIndex={editingIndex}
+          username={username}
         />
       )}
     </>
