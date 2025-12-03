@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import PacketModal from './components/PacketModal'
@@ -12,20 +12,31 @@ export default function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [paquetes, setPaquetes] = useState([
-    {
-      num_guia: 'GU001',
-      destinatario: 'Ana Martínez',
-      paqueteria: 1,
-      recibe: 1,
-      tamaño: 2,
-      contenedor: 1,
-      remitente: 'Amazon MX',
-      fecha_recib: '2024-11-28T10:30',
-      fecha_entre: '',
-      matric_entregado: ''
-    }
-  ])
+  // paquetes will be loaded from remote endpoint (JSON) on mount
+  const [paquetes, setPaquetes] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(null)
+
+  useEffect(() => {
+    const endpoint = 'http://10.4.22.8:3000/api/paquetes'
+    setLoading(true)
+    fetch(endpoint)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then((data) => {
+        // store the JSON as-is (no mapping/formatting)
+        if (Array.isArray(data)) setPaquetes(data)
+        else console.warn('Expected array from API, got:', data)
+        setLoadError(null)
+      })
+      .catch((err) => {
+        console.error('Failed to load paquetes from endpoint', err)
+        setLoadError(err.message || String(err))
+      })
+      .finally(() => setLoading(false))
+  }, [])
 
   const [showModal, setShowModal] = useState(false)
   const [editingIndex, setEditingIndex] = useState(null)

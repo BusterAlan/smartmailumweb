@@ -1,9 +1,9 @@
 // Datos mock para los selects
 const PAQUETERIAS = [
-  { id: 1, nombre: 'DHL' },
-  { id: 2, nombre: 'FedEx' },
-  { id: 3, nombre: 'Estafeta' },
-  { id: 4, nombre: 'Redpack' }
+  { id: 1, nombre: 'Mercado Libre' },
+  { id: 2, nombre: 'Amazon' },
+  { id: 3, nombre: 'AliExpress' },
+  { id: 4, nombre: 'Otro' }
 ];
 
 const EMPLEADOS = [
